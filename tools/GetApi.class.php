@@ -1,27 +1,27 @@
 <?php
 /**
  *
- * µ÷ÓÃapi·â×°Àà¡£
+ * è°ƒç”¨apiå°è£…ç±»ã€‚
  * @author tianquanjun
  *
  */
 class GetApi{
 	/**
-	 * APIµØÖ·±ØĞë£¬Ä¬ÈÏget·½·¨£¬²ÎÊıÄ¬ÈÏÎª¿ÕÊı×é
+	 * APIåœ°å€å¿…é¡»ï¼Œé»˜è®¤getæ–¹æ³•ï¼Œå‚æ•°é»˜è®¤ä¸ºç©ºæ•°ç»„
 	 */
 	public static function request($api,$method='GET',$params=array()){
 		if(strtoupper($method)=='GET'){
 			$res = self::getMethod($api,$params);
 		}
 		if(strtoupper($method) == 'POST'){
-			$res = self::postMethod();
+			$res = self::postMethod($api,$params);
 		}
 		return $res;
 	}
 
 	private static function getMethod($api,$params){
 
-		$ch = curl_init();//³õÊ¼»¯
+		$ch = curl_init();//åˆå§‹åŒ–
 		$k = 0;
 		foreach ($params as $key=>$value){
 			if($k==0){
@@ -33,14 +33,14 @@ class GetApi{
 		}
 
 
-		/*============¿ªÊ¼ÉèÖÃcurl¸÷ÖÖÑ¡Ïî================*/
+		/*============å¼€å§‹è®¾ç½®curlå„ç§é€‰é¡¹================*/
 		curl_setopt($ch, CURLOPT_URL, $api);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 
-		$html = curl_exec($ch);//Ö´ĞĞ¾ä±ú£¬»ñÈ¡·µ»ØÄÚÈİ
+		$html = curl_exec($ch);//æ‰§è¡Œå¥æŸ„ï¼Œè·å–è¿”å›å†…å®¹
 
-		curl_close($ch);//ÊÍ·Å¾ä±ú
+		curl_close($ch);//é‡Šæ”¾å¥æŸ„
 		return $html;
 	}
 
@@ -48,16 +48,16 @@ class GetApi{
 
 		$ch = curl_init ();
 
-		//¸÷ÖÖÏîÉèÖÃ£¬ÍøÉÏ²Î¿¼¶øÀ´£¬¿ÉÒÔ²é¿´phpÊÖ²á£¬×Ô¼ºÉèÖÃ
+		//å„ç§é¡¹è®¾ç½®ï¼Œç½‘ä¸Šå‚è€ƒè€Œæ¥ï¼Œå¯ä»¥æŸ¥çœ‹phpæ‰‹å†Œï¼Œè‡ªå·±è®¾ç½®
 		curl_setopt ( $ch, CURLOPT_URL, $api );
-		curl_setopt ( $ch, CURLOPT_POST, 1 );//post·½Ê½
+		curl_setopt ( $ch, CURLOPT_POST, 1 );//postæ–¹å¼
 		curl_setopt ( $ch, CURLOPT_HEADER, 0 );
 		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
 		curl_setopt ( $ch, CURLOPT_POSTFIELDS, $params);
 
-		//Ö´ĞĞ
+		//æ‰§è¡Œ
 		$return = curl_exec ( $ch );
-		//ÊÍ·Å
+		//é‡Šæ”¾
 		curl_close ( $ch );
 		return $return;
 
